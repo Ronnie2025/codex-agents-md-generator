@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AGENTS.md 生成器 | Codex CLI Project Instructions Generator</title>
+  <meta name="description" content="免费 AGENTS.md 生成器：为 Codex CLI、Claude Code、Cursor 和 Gemini CLI 生成项目规则文件，包含命令、边界、安全规则和验收方式，并提供 Codex 新手资料包闲鱼入口。">
+  <link rel="canonical" href="https://ronnie2025.github.io/codex-agents-md-generator/">
+  <link rel="icon" href="codex-troubleshooting-cover.webp">
+  <meta property="og:title" content="AGENTS.md Generator for Codex CLI">
+  <meta property="og:description" content="Generate a project-level AGENTS.md file with commands, file boundaries, safety rules, and acceptance checks for Codex CLI and other AI coding agents.">
+  <meta property="og:url" content="https://ronnie2025.github.io/codex-agents-md-generator/">
+  <meta property="og:image" content="https://ronnie2025.github.io/codex-agents-md-generator/codex-troubleshooting-cover.webp">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AGENTS.md 生成器",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "description": "根据项目类型、技术栈、命令、可改范围和安全边界，生成适合 Codex CLI 等 AI coding agent 读取的 AGENTS.md。",
+    "url": "https://ronnie2025.github.io/codex-agents-md-generator/",
+    "image": "https://ronnie2025.github.io/codex-agents-md-generator/codex-troubleshooting-cover.webp",
+    "sameAs": [
+      "https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-agents-md-generator.html",
+      "https://www.goofish.com/item?id=1058436354978",
+      "https://www.goofish.com/item?id=1059263013337"
+    ],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "CNY",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "AGENTS.md 是什么？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AGENTS.md 是放在项目根目录的 AI coding agent 规则文件，用来告诉 Codex、Claude Code、Cursor 等工具项目命令、边界、代码风格和验收方式。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Codex CLI 会读取 AGENTS.md 吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Codex 会优先读取工作目录附近的项目说明文件。把 AGENTS.md 放在项目根目录，可以减少每次对话重复解释项目规则。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "AGENTS.md 应该写多长？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "新手项目先写 1 到 2 页即可，重点是常用命令、不能改的文件、测试方式、安全规则和交付说明，不需要把 README 重写一遍。"
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #101828;
+      --muted: #667085;
+      --bg: #f6f8fb;
+      --panel: #fff;
+      --line: #dbe4ef;
+      --blue: #155eef;
+      --green: #0f8f6f;
+      --deep: #0d1b2a;
+      --soft-blue: #eaf1ff;
+      --soft-green: #e9f8f3;
+      --shadow: 0 18px 48px rgba(16, 24, 40, .10);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.62;
+    }
+    a { color: inherit; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(14px);
+    }
+    .topbar-inner {
+      width: min(1180px, calc(100% - 36px));
+      min-height: 58px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      color: var(--deep);
+      font-weight: 900;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .nav a { text-decoration: none; }
+    .hero {
+      min-height: 620px;
+      display: grid;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(246,248,251,.99) 0%, rgba(246,248,251,.94) 48%, rgba(246,248,251,.28) 78%),
+        url("codex-troubleshooting-cover.webp") right center / min(42vw, 610px) auto no-repeat;
+    }
+    .wrap {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+    .hero-copy {
+      max-width: 700px;
+      padding: 74px 0 86px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(21,94,239,.24);
+      background: rgba(21,94,239,.08);
+      color: var(--blue);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 850;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1 {
+      margin: 20px 0 16px;
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin-bottom: 16px;
+      font-size: 30px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin-bottom: 8px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+    .lead {
+      max-width: 620px;
+      color: #4d5a68;
+      font-size: 19px;
+    }
+    .english-note {
+      max-width: 670px;
+      margin-top: 18px;
+      padding: 16px;
+      border: 1px solid rgba(15,143,111,.24);
+      border-radius: 8px;
+      background: rgba(233,248,243,.82);
+      color: #225446;
+      font-size: 15px;
+    }
+    .english-note strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--green);
+      font-size: 16px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+    .btn {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 10px 17px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 820;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-dark { background: var(--deep); color: #fff; }
+    .btn-line { border-color: var(--line); }
+    section {
+      padding: 58px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .tool-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .94fr) minmax(420px, 1.06fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .form-panel { padding: 22px; }
+    .result-panel {
+      position: sticky;
+      top: 78px;
+      overflow: hidden;
+    }
+    .cover {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .result-body { padding: 22px; }
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .field {
+      min-height: 104px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdff;
+    }
+    .field.full { grid-column: 1 / -1; }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 850;
+    }
+    .hint {
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      letter-spacing: 0;
+    }
+    input[type="text"],
+    select {
+      min-height: 44px;
+      padding: 0 12px;
+    }
+    textarea {
+      min-height: 92px;
+      padding: 12px;
+      resize: vertical;
+    }
+    .check-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .check-grid label {
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 760;
+    }
+    .check-grid input { width: auto; }
+    .output-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .score {
+      min-width: 74px;
+      color: var(--green);
+      font-size: 60px;
+      line-height: 1;
+      font-weight: 950;
+      text-align: right;
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 0;
+    }
+    .pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: var(--soft-blue);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 850;
+    }
+    .copybox {
+      min-height: 320px;
+      max-height: 620px;
+      overflow: auto;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdff;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.58;
+    }
+    .script-block {
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+      margin-top: 18px;
+    }
+    .list {
+      display: grid;
+      gap: 9px;
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .list li {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: #344054;
+    }
+    .cta-panel {
+      border: 1px solid rgba(21,94,239,.24);
+      border-radius: 8px;
+      background: var(--soft-blue);
+      padding: 16px;
+      margin-top: 18px;
+    }
+    .cta-panel p { color: #345070; }
+    .mini-note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .card {
+      min-height: 176px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .card p { color: var(--muted); }
+    .footer {
+      padding: 34px 0;
+      color: var(--muted);
+    }
+    .footer .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    @media (max-width: 920px) {
+      .topbar-inner { align-items: flex-start; flex-direction: column; padding: 12px 0; }
+      .hero {
+        min-height: auto;
+        background:
+          linear-gradient(180deg, rgba(246,248,251,.99) 0%, rgba(246,248,251,.96) 54%, rgba(246,248,251,.76) 100%),
+          url("codex-troubleshooting-cover.webp") bottom center / min(82vw, 360px) auto no-repeat;
+      }
+      .hero-copy { padding: 42px 0 320px; }
+      .tool-layout,
+      .field-grid,
+      .cards {
+        grid-template-columns: 1fr;
+      }
+      .field.full { grid-column: auto; }
+      .check-grid { grid-template-columns: 1fr; }
+      .result-panel { position: static; }
+      .output-head { flex-direction: column; }
+      .score { text-align: left; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/">AI Workbench Store</a>
+      <div class="nav">
+        <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-troubleshooting.html">Codex 包</a>
+        <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-first-task-prompt-generator.html">提示词生成</a>
+        <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/virtual-products.html">虚拟资料</a>
+        <a href="https://www.goofish.com/item?id=1058436354978" target="_blank" rel="noopener">闲鱼购买</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">免费 Codex 项目规则工具</span>
+        <h1>AGENTS.md 生成器</h1>
+        <p class="lead">把项目命令、可改范围、禁止事项和验收方式写成一份 Codex 能反复读取的项目规则，减少每次对话重新解释。</p>
+        <div class="english-note">
+          <strong>For GitHub visitors</strong>
+          Free AGENTS.md generator for Codex CLI, Claude Code, Cursor, and other AI coding agents. Create project instructions with commands, boundaries, safety rules, and acceptance checks.
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="#tool">生成 AGENTS.md / Generate file</a>
+          <a class="btn btn-dark" href="https://www.goofish.com/item?id=1058436354978" target="_blank" rel="noopener">2.99 元 Codex starter pack</a>
+          <a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-first-task-prompt-generator.html">第一次任务提示词</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="tool">
+    <div class="wrap tool-layout">
+      <div class="panel form-panel">
+        <h2>填写项目规则</h2>
+        <p class="hint">默认适合小型网页项目。改字段后会自动生成一份可复制的 AGENTS.md。</p>
+        <div class="field-grid">
+          <div class="field">
+            <label for="projectType">项目类型</label>
+            <select id="projectType">
+              <option value="网页应用">网页应用</option>
+              <option value="静态网站">静态网站</option>
+              <option value="Node 脚本工具">Node 脚本工具</option>
+              <option value="Python 数据脚本">Python 数据脚本</option>
+              <option value="文档/课程资料">文档/课程资料</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="stack">技术栈</label>
+            <input id="stack" type="text" value="HTML, CSS, JavaScript, GitHub Pages">
+          </div>
+          <div class="field">
+            <label for="packageManager">包管理/运行方式</label>
+            <select id="packageManager">
+              <option value="无构建，直接打开 HTML">无构建，直接打开 HTML</option>
+              <option value="npm">npm</option>
+              <option value="pnpm">pnpm</option>
+              <option value="yarn">yarn</option>
+              <option value="python">python</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="agentMode">默认协作模式</label>
+            <select id="agentMode">
+              <option value="先计划，再修改">先计划，再修改</option>
+              <option value="小改动可直接修改">小改动可直接修改</option>
+              <option value="只审计，不自动修改">只审计，不自动修改</option>
+              <option value="先问清楚再动手">先问清楚再动手</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="commands">常用命令</label>
+            <textarea id="commands">本地预览：直接打开 HTML 文件
+验证页面：检查 390px 移动端和 1366px 桌面端
+上线：git add/commit/push 后等待 GitHub Pages 刷新</textarea>
+          </div>
+          <div class="field full">
+            <label for="editableScope">可以修改的范围</label>
+            <textarea id="editableScope">当前任务相关的 HTML、CSS、README、sitemap；只改和目标直接相关的文件。</textarea>
+          </div>
+          <div class="field full">
+            <label for="protectedScope">不能碰的范围</label>
+            <textarea id="protectedScope">不要改支付金额、商品链接、隐私条款、历史记录、无关页面；不要删除用户未提交的改动。</textarea>
+          </div>
+          <div class="field full">
+            <label for="acceptance">验收方式</label>
+            <textarea id="acceptance">说明改了哪些文件；检查链接可打开；移动端不横向溢出；复制/按钮/表单交互能正常工作。</textarea>
+          </div>
+          <div class="field full">
+            <label>要覆盖的 Agent</label>
+            <div class="check-grid">
+              <label><input type="checkbox" id="toolCodex" checked> Codex CLI</label>
+              <label><input type="checkbox" id="toolClaude" checked> Claude Code</label>
+              <label><input type="checkbox" id="toolCursor" checked> Cursor</label>
+              <label><input type="checkbox" id="toolGemini"> Gemini CLI</label>
+              <label><input type="checkbox" id="security" checked> 安全/隐私规则</label>
+              <label><input type="checkbox" id="delivery" checked> 交付摘要规则</label>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="generate" type="button">重新生成</button>
+          <button class="btn btn-line" id="copy" type="button">复制 AGENTS.md</button>
+          <a class="btn btn-dark" href="https://www.goofish.com/item?id=1058436354978" target="_blank" rel="noopener">闲鱼买 2.99 元清单</a>
+        </div>
+      </div>
+
+      <aside class="panel result-panel">
+        <img class="cover" src="codex-troubleshooting-cover.webp" alt="AGENTS.md 生成器封面">
+        <div class="result-body">
+          <div class="output-head">
+            <div>
+              <h2>可复制 AGENTS.md</h2>
+              <p class="hint" id="scoreHint">这份规则适合放在项目根目录，给 Codex 等工具读取。</p>
+            </div>
+            <div class="score" id="score">90</div>
+          </div>
+          <div class="pill-row" id="pillRow"></div>
+          <div class="copybox" id="agentsOut"></div>
+
+          <div class="script-block">
+            <h3>放入项目前再检查</h3>
+            <ul class="list" id="checkList"></ul>
+          </div>
+
+          <div class="cta-panel">
+            <h3>需要新手任务和排障模板</h3>
+            <p>2.99 元 Codex 入门排障清单包含安装登录、第一次任务、常见失败顺序、提示词模板和 AGENTS.md 使用建议。</p>
+            <p class="mini-note">English: the 2.99 CNY starter pack is delivered via Xianyu/Goofish chat after purchase. It is a checklist and prompt-template pack, not a managed coding service.</p>
+            <div class="actions">
+              <a class="btn btn-dark" href="https://www.goofish.com/item?id=1058436354978" target="_blank" rel="noopener">Buy 2.99 CNY starter pack</a>
+              <a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-troubleshooting-checker.html">免费排障自检</a>
+              <a class="btn btn-line" href="https://www.goofish.com/item?id=1059263013337" target="_blank" rel="noopener">99 CNY full workflow pack</a>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>AGENTS.md 先写这三类规则</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>命令</h3>
+          <p>把预览、测试、构建、部署命令写清楚，Agent 才能在改完后自己验证。</p>
+        </div>
+        <div class="card">
+          <h3>边界</h3>
+          <p>列出可以改和不能改的文件范围，避免一次小任务扩散成整站重构。</p>
+        </div>
+        <div class="card">
+          <h3>验收</h3>
+          <p>要求说明 diff、运行检查、截图或手动检查项，让完成状态能被判断。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>Contact: zhongruanjie@gmail.com</span>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-troubleshooting.html">Codex 入门排障清单</a>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-first-task-prompt-generator.html">Codex 提示词生成器</a>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/virtual-products.html">虚拟资料货架</a>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/privacy.html">Privacy Policy</a>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/terms.html">Terms of Service</a>
+    </div>
+  </footer>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const fields = [
+      "projectType", "stack", "packageManager", "agentMode", "commands",
+      "editableScope", "protectedScope", "acceptance", "toolCodex",
+      "toolClaude", "toolCursor", "toolGemini", "security", "delivery"
+    ];
+
+    function readState() {
+      const tools = [];
+      if ($("toolCodex").checked) tools.push("Codex CLI");
+      if ($("toolClaude").checked) tools.push("Claude Code");
+      if ($("toolCursor").checked) tools.push("Cursor");
+      if ($("toolGemini").checked) tools.push("Gemini CLI");
+      return {
+        projectType: $("projectType").value,
+        stack: $("stack").value.trim() || "未填写",
+        packageManager: $("packageManager").value,
+        agentMode: $("agentMode").value,
+        commands: $("commands").value.trim() || "请先补充预览、测试或构建命令。",
+        editableScope: $("editableScope").value.trim() || "只改和当前任务直接相关的文件。",
+        protectedScope: $("protectedScope").value.trim() || "不要改无关文件，不要删除用户改动。",
+        acceptance: $("acceptance").value.trim() || "说明如何检查任务是否完成。",
+        tools,
+        security: $("security").checked,
+        delivery: $("delivery").checked
+      };
+    }
+
+    function scoreState(state) {
+      let score = 46;
+      if (state.stack.length >= 8) score += 10;
+      if (state.commands.length >= 24) score += 14;
+      if (state.editableScope.length >= 16) score += 10;
+      if (state.protectedScope.length >= 16) score += 10;
+      if (state.acceptance.length >= 16) score += 12;
+      if (state.tools.length >= 2) score += 4;
+      if (state.security) score += 3;
+      if (state.delivery) score += 3;
+      return Math.max(35, Math.min(98, score));
+    }
+
+    function bullets(text) {
+      return text.split(/\n+/).map((line) => line.trim()).filter(Boolean).map((line) => `- ${line}`).join("\n");
+    }
+
+    function buildAgents(state) {
+      const toolLine = state.tools.length ? state.tools.join(", ") : "AI coding agents";
+      const modeNote = {
+        "先计划，再修改": "For non-trivial tasks, inspect the relevant files first, propose a short plan, then implement after the plan is clear.",
+        "小改动可直接修改": "For small, clearly scoped changes, implement directly and then summarize the diff.",
+        "只审计，不自动修改": "Default to read-only review. Do not modify files unless the user explicitly asks for implementation.",
+        "先问清楚再动手": "If the task is ambiguous, ask the minimum necessary clarification before editing files."
+      }[state.agentMode];
+
+      const sections = [
+        "# AGENTS.md",
+        "",
+        `This file provides project instructions for ${toolLine}. Keep it focused on commands, boundaries, safety rules, and acceptance checks.`,
+        "",
+        "## Project Overview",
+        "",
+        `- Project type: ${state.projectType}`,
+        `- Main stack: ${state.stack}`,
+        `- Runtime/package mode: ${state.packageManager}`,
+        "",
+        "## Working Mode",
+        "",
+        `- ${modeNote}`,
+        "- Prefer small, reviewable changes over broad rewrites.",
+        "- Before editing, identify the files that are directly relevant to the requested task.",
+        "- Do not reformat unrelated files or move content across folders unless the task requires it.",
+        "",
+        "## Common Commands",
+        "",
+        bullets(state.commands),
+        "",
+        "## Editable Scope",
+        "",
+        bullets(state.editableScope),
+        "",
+        "## Protected Scope",
+        "",
+        bullets(state.protectedScope),
+        "",
+        "## Acceptance Checks",
+        "",
+        bullets(state.acceptance)
+      ];
+
+      if (state.security) {
+        sections.push(
+          "",
+          "## Safety And Privacy",
+          "",
+          "- Do not expose API keys, tokens, cookies, private customer data, or local secrets.",
+          "- Do not change payment links, order amounts, authentication flows, or analytics identifiers unless the task explicitly asks for it.",
+          "- If a task may transmit sensitive data to a third party, stop and ask for confirmation first.",
+          "- Preserve user changes already present in the working tree."
+        );
+      }
+
+      if (state.delivery) {
+        sections.push(
+          "",
+          "## Delivery Format",
+          "",
+          "- Summarize the files changed and the reason for each change.",
+          "- Report the exact checks run and whether they passed.",
+          "- Mention any checks that could not be run.",
+          "- If the task affects UI, verify both mobile and desktop layouts when practical."
+        );
+      }
+
+      sections.push(
+        "",
+        "## When Unsure",
+        "",
+        "- Prefer reading the current files over guessing project structure.",
+        "- Ask one focused question only when the next action would otherwise be risky or ambiguous.",
+        "- Keep the user-facing summary short and concrete."
+      );
+
+      return sections.join("\n");
+    }
+
+    function buildChecks(state) {
+      const checks = [
+        "把生成内容保存为项目根目录的 AGENTS.md。",
+        "确认命令是真实可运行的，不要留下示例命令占位。",
+        "确认不能改的范围覆盖支付、登录、数据、用户未提交改动。"
+      ];
+      if (!state.tools.includes("Codex CLI")) checks.push("如果主要使用 Codex，建议勾选 Codex CLI。");
+      if (!state.security) checks.push("建议加入安全/隐私规则，避免误传密钥或改动支付链路。");
+      if (!state.delivery) checks.push("建议加入交付摘要规则，方便判断任务是否真的完成。");
+      return checks;
+    }
+
+    function render() {
+      const state = readState();
+      const score = scoreState(state);
+      $("score").textContent = String(score);
+      $("scoreHint").textContent = score >= 84
+        ? "这份 AGENTS.md 已覆盖命令、边界和验收，可以先放进项目根目录。"
+        : score >= 68
+          ? "可以使用，但建议再补充命令、禁止范围或验收方式。"
+          : "信息偏少，先补真实命令、可改范围和不能碰的文件。";
+
+      $("pillRow").innerHTML = "";
+      [state.projectType, state.packageManager, state.agentMode, state.tools.length ? state.tools.join(" + ") : "未选择 Agent"].forEach((label) => {
+        const pill = document.createElement("span");
+        pill.className = "pill";
+        pill.textContent = label;
+        $("pillRow").appendChild(pill);
+      });
+
+      $("agentsOut").textContent = buildAgents(state);
+      $("checkList").innerHTML = "";
+      buildChecks(state).forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        $("checkList").appendChild(li);
+      });
+    }
+
+    fields.forEach((id) => {
+      const el = $(id);
+      el.addEventListener("input", render);
+      el.addEventListener("change", render);
+    });
+    $("generate").addEventListener("click", render);
+    function fallbackCopy(text) {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
+
+    $("copy").addEventListener("click", async () => {
+      const text = $("agentsOut").textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (error) {
+        fallbackCopy(text);
+      }
+      $("copy").textContent = "已复制";
+      setTimeout(() => { $("copy").textContent = "复制 AGENTS.md"; }, 1400);
+    });
+    render();
+  </script>
+</body>
+</html>
