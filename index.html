@@ -434,6 +434,7 @@
     <div class="topbar-inner">
       <a class="brand" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/">AI Workbench Store</a>
       <div class="nav">
+        <a href="./templates.html">模板库</a>
         <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-troubleshooting.html">Codex 包</a>
         <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-first-task-prompt-generator.html">提示词生成</a>
         <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/virtual-products.html">虚拟资料</a>
@@ -454,6 +455,7 @@
         </div>
         <div class="actions">
           <a class="btn btn-primary" href="#tool">生成 AGENTS.md / Generate file</a>
+          <a class="btn btn-line" href="./templates.html">看 AGENTS.md 模板库</a>
           <a class="btn btn-dark" href="https://www.goofish.com/item?id=1058436354978" target="_blank" rel="noopener">2.99 元 Codex starter pack</a>
           <a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-first-task-prompt-generator.html">第一次任务提示词</a>
         </div>
@@ -561,6 +563,7 @@
             <p class="mini-note">English: the 2.99 CNY starter pack is delivered via Xianyu/Goofish chat after purchase. It is a checklist and prompt-template pack, not a managed coding service.</p>
             <div class="actions">
               <a class="btn btn-dark" href="https://www.goofish.com/item?id=1058436354978" target="_blank" rel="noopener">Buy 2.99 CNY starter pack</a>
+              <button class="btn btn-line" id="copyBuyNote" type="button">复制拍下备注</button>
               <a class="btn btn-line" href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-troubleshooting-checker.html">免费排障自检</a>
               <a class="btn btn-line" href="https://www.goofish.com/item?id=1059263013337" target="_blank" rel="noopener">99 CNY full workflow pack</a>
             </div>
@@ -593,6 +596,7 @@
   <footer class="footer">
     <div class="wrap">
       <span>Contact: zhongruanjie@gmail.com</span>
+      <a href="./templates.html">AGENTS.md 模板库</a>
       <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-troubleshooting.html">Codex 入门排障清单</a>
       <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-first-task-prompt-generator.html">Codex 提示词生成器</a>
       <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/virtual-products.html">虚拟资料货架</a>
@@ -793,6 +797,16 @@
       }
       $("copy").textContent = "已复制";
       setTimeout(() => { $("copy").textContent = "复制 AGENTS.md"; }, 1400);
+    });
+    $("copyBuyNote").addEventListener("click", async () => {
+      const text = "我要 Codex 入门排障清单 2.99 元版，拍下后请发送 ZIP 资料包。";
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (error) {
+        fallbackCopy(text);
+      }
+      $("copyBuyNote").textContent = "已复制备注";
+      setTimeout(() => { $("copyBuyNote").textContent = "复制拍下备注"; }, 1400);
     });
     render();
   </script>

@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AGENTS.md 模板库 | Codex CLI Examples and Project Instructions</title>
+  <meta name="description" content="可复制的 AGENTS.md 模板库，覆盖静态网站、Vite/React、Node CLI、Python 数据脚本、Obsidian 内容库等 Codex CLI 项目规则示例，并提供 Codex 新手资料包闲鱼入口。">
+  <link rel="canonical" href="https://ronnie2025.github.io/codex-agents-md-generator/templates.html">
+  <link rel="icon" href="codex-troubleshooting-cover.webp">
+  <meta property="og:title" content="AGENTS.md Templates for Codex CLI">
+  <meta property="og:description" content="Copy ready-to-use AGENTS.md examples for Codex CLI, Claude Code, Cursor, and other AI coding agents.">
+  <meta property="og:url" content="https://ronnie2025.github.io/codex-agents-md-generator/templates.html">
+  <meta property="og:image" content="https://ronnie2025.github.io/codex-agents-md-generator/codex-troubleshooting-cover.webp">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "AGENTS.md 模板库",
+    "description": "可复制的 AGENTS.md examples and templates for Codex CLI, Claude Code, Cursor, and Gemini CLI projects.",
+    "url": "https://ronnie2025.github.io/codex-agents-md-generator/templates.html",
+    "isPartOf": {
+      "@type": "SoftwareApplication",
+      "name": "AGENTS.md Generator for Codex CLI",
+      "url": "https://ronnie2025.github.io/codex-agents-md-generator/"
+    },
+    "hasPart": [
+      {"@type": "CreativeWork", "name": "Static Website AGENTS.md Template"},
+      {"@type": "CreativeWork", "name": "Vite React App AGENTS.md Template"},
+      {"@type": "CreativeWork", "name": "Node CLI Tool AGENTS.md Template"},
+      {"@type": "CreativeWork", "name": "Python Data Script AGENTS.md Template"},
+      {"@type": "CreativeWork", "name": "Obsidian Content Vault AGENTS.md Template"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I copy these AGENTS.md templates directly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Copy one template, replace the commands and protected files with real project details, then save it as AGENTS.md in the project root."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do these templates work for Codex CLI?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "They are written for Codex CLI and are also useful for Claude Code, Cursor, Gemini CLI, and similar AI coding agents."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #101828;
+      --muted: #667085;
+      --bg: #f6f8fb;
+      --panel: #fff;
+      --line: #dbe4ef;
+      --blue: #155eef;
+      --green: #0f8f6f;
+      --deep: #0d1b2a;
+      --soft-blue: #eaf1ff;
+      --soft-green: #e9f8f3;
+      --soft-warn: #fff7e6;
+      --shadow: 0 18px 48px rgba(16, 24, 40, .10);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.62;
+    }
+    a { color: inherit; }
+    h1, h2, h3, p { margin: 0; }
+    h1 {
+      max-width: 880px;
+      margin: 18px 0 16px;
+      font-size: clamp(36px, 5.8vw, 64px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin-bottom: 14px;
+      font-size: 30px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin-bottom: 8px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(14px);
+    }
+    .topbar-inner {
+      width: min(1180px, calc(100% - 36px));
+      min-height: 58px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      color: var(--deep);
+      font-weight: 900;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .nav a { text-decoration: none; }
+    .wrap {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+    .hero {
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(246,248,251,.99) 0%, rgba(246,248,251,.95) 52%, rgba(246,248,251,.52) 86%),
+        url("codex-troubleshooting-cover.webp") right center / min(40vw, 600px) auto no-repeat;
+    }
+    .hero-copy {
+      max-width: 760px;
+      padding: 76px 0 88px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(21,94,239,.24);
+      background: rgba(21,94,239,.08);
+      color: var(--blue);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 850;
+    }
+    .lead {
+      max-width: 680px;
+      color: #4d5a68;
+      font-size: 19px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .btn {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 10px 17px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 820;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-dark { background: var(--deep); color: #fff; }
+    .btn-line { border-color: var(--line); }
+    section {
+      padding: 58px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .summary-item {
+      min-height: 124px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 10px 30px rgba(16, 24, 40, .06);
+    }
+    .summary-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--deep);
+      font-size: 18px;
+    }
+    .summary-item span { color: var(--muted); }
+    .template-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .template-card {
+      display: grid;
+      grid-template-columns: minmax(220px, .42fr) minmax(0, .58fr);
+      gap: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .template-meta {
+      padding: 22px;
+      border-right: 1px solid var(--line);
+      background: #fbfdff;
+    }
+    .template-meta p {
+      margin-top: 10px;
+      color: var(--muted);
+    }
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .tag {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: var(--soft-blue);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 850;
+    }
+    .template-body {
+      padding: 18px;
+    }
+    pre {
+      min-height: 330px;
+      max-height: 520px;
+      margin: 0;
+      overflow: auto;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdff;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: #1f2937;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.58;
+    }
+    .pay-panel {
+      display: grid;
+      grid-template-columns: minmax(0, .7fr) minmax(260px, .3fr);
+      gap: 18px;
+      align-items: center;
+      padding: 22px;
+      border: 1px solid rgba(15,143,111,.28);
+      border-radius: 8px;
+      background: var(--soft-green);
+    }
+    .pay-panel p { color: #245749; }
+    .note-box {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border: 1px solid rgba(15,143,111,.32);
+      border-radius: 8px;
+      background: #fff;
+      color: #225446;
+      overflow-wrap: anywhere;
+    }
+    .footer {
+      padding: 34px 0;
+      color: var(--muted);
+    }
+    .footer .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    @media (max-width: 920px) {
+      .topbar-inner { align-items: flex-start; flex-direction: column; padding: 12px 0; }
+      .hero {
+        background:
+          linear-gradient(180deg, rgba(246,248,251,.99) 0%, rgba(246,248,251,.96) 60%, rgba(246,248,251,.72) 100%),
+          url("codex-troubleshooting-cover.webp") bottom center / min(82vw, 360px) auto no-repeat;
+      }
+      .hero-copy { padding: 42px 0 300px; }
+      .summary-grid,
+      .template-card,
+      .pay-panel {
+        grid-template-columns: 1fr;
+      }
+      .template-meta {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./">AGENTS.md Generator</a>
+      <div class="nav">
+        <a href="./">生成器</a>
+        <a href="#templates">模板库</a>
+        <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-first-task-prompt-generator.html">提示词生成</a>
+        <a href="https://www.goofish.com/item?id=1058436354978" target="_blank" rel="noopener">闲鱼购买</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">AGENTS.md examples for Codex CLI</span>
+        <h1>AGENTS.md 模板库</h1>
+        <p class="lead">直接复制项目规则模板，替换真实命令和保护范围，再保存到项目根目录。适合 Codex CLI、Claude Code、Cursor 和 Gemini CLI。</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#templates">复制模板</a>
+          <button class="btn btn-line" type="button" id="downloadAllTop">下载全部模板</button>
+          <a class="btn btn-dark" href="https://www.goofish.com/item?id=1058436354978" target="_blank" rel="noopener">2.99 元 Codex 清单</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <h2>模板先覆盖真实项目边界</h2>
+      <p class="lead">好用的 AGENTS.md 不追求长，重点是让 Agent 知道怎么运行、哪里能改、哪里不能碰，以及怎样验收。</p>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <strong>Commands</strong>
+          <span>预览、测试、构建、部署命令必须可执行，避免 Agent 只能猜。</span>
+        </div>
+        <div class="summary-item">
+          <strong>Boundaries</strong>
+          <span>明确页面、脚本、数据、支付、账号和用户改动的保护边界。</span>
+        </div>
+        <div class="summary-item">
+          <strong>Acceptance</strong>
+          <span>要求输出检查结果、链接状态、移动端布局和无法运行的测试。</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="templates">
+    <div class="wrap">
+      <h2>可复制 AGENTS.md 模板</h2>
+      <p class="lead">每份模板都保留项目类型、命令、可改范围、保护范围、安全规则和交付格式。</p>
+      <div class="actions">
+        <button class="btn btn-primary" type="button" id="copyAll">复制全部模板</button>
+        <button class="btn btn-line" type="button" id="downloadAll">下载 Markdown</button>
+      </div>
+
+      <div class="template-grid">
+        <article class="template-card">
+          <div class="template-meta">
+            <h3>Static Website</h3>
+            <p>适合 HTML/CSS/JS、GitHub Pages、单页销售页、小工具站。</p>
+            <div class="tag-row">
+              <span class="tag">GitHub Pages</span>
+              <span class="tag">No build</span>
+              <span class="tag">Mobile check</span>
+            </div>
+            <div class="actions">
+              <button class="btn btn-primary copy-template" type="button">复制这个模板</button>
+            </div>
+          </div>
+          <div class="template-body">
+            <pre data-template># AGENTS.md
+
+This project is a static website used as a public landing page or browser tool.
+
+## Project Overview
+
+- Stack: HTML, CSS, JavaScript, GitHub Pages
+- Runtime: no build step, open HTML directly for local preview
+- Main goal: keep pages fast, readable, mobile-friendly, and easy to verify
+
+## Working Mode
+
+- Inspect the current HTML and CSS before editing.
+- Keep changes limited to the requested page or directly linked shared files.
+- Avoid broad visual redesigns unless the task explicitly asks for it.
+- Do not modify unrelated sales links, order amounts, analytics, or legal pages.
+
+## Common Commands
+
+- Preview: open the HTML file in a browser
+- HTML check: xmllint --html --noout index.html
+- Link check: curl -L -I target-url
+- Deploy: git add . &amp;&amp; git commit -m "message" &amp;&amp; git push
+
+## Editable Scope
+
+- Current task page
+- Related CSS inside the same HTML file
+- README, sitemap.xml, robots.txt when the public URL changes
+
+## Protected Scope
+
+- Payment links and product prices
+- Existing order pages and privacy/terms pages
+- User-created files not related to the task
+- Historical tracker, ledger, or publishing records
+
+## Acceptance Checks
+
+- Page opens locally without console errors
+- 390px mobile viewport has no horizontal overflow
+- Primary buttons and copy actions work
+- Public URLs return HTTP 200 after deployment
+- Summarize changed files and verification results</pre>
+          </div>
+        </article>
+
+        <article class="template-card">
+          <div class="template-meta">
+            <h3>Vite / React App</h3>
+            <p>适合 Vite、React、TypeScript、小型 SaaS 工具和 dashboard。</p>
+            <div class="tag-row">
+              <span class="tag">npm</span>
+              <span class="tag">React</span>
+              <span class="tag">TypeScript</span>
+            </div>
+            <div class="actions">
+              <button class="btn btn-primary copy-template" type="button">复制这个模板</button>
+            </div>
+          </div>
+          <div class="template-body">
+            <pre data-template># AGENTS.md
+
+This project is a Vite/React application.
+
+## Project Overview
+
+- Stack: Vite, React, TypeScript, CSS modules or app-level CSS
+- Package manager: npm unless package-lock or pnpm-lock indicates otherwise
+- Main goal: ship focused UI behavior without breaking existing routes
+
+## Working Mode
+
+- Read package.json before running commands.
+- Follow existing component and state patterns.
+- Keep UI elements stable across mobile and desktop viewports.
+- Use existing icons, design tokens, helper functions, and route structure.
+
+## Common Commands
+
+- Install: npm install
+- Dev server: npm run dev
+- Type check: npm run typecheck
+- Lint: npm run lint
+- Build: npm run build
+
+## Editable Scope
+
+- src components directly related to the requested feature
+- route/page file for the target view
+- nearby CSS or design-token files already used by the target view
+- tests for changed behavior
+
+## Protected Scope
+
+- Authentication, billing, payment, and permission checks
+- API keys, environment files, and production configuration
+- Unrelated shared components used across many routes
+- Lockfiles unless dependency changes are required
+
+## Acceptance Checks
+
+- npm run lint passes or the existing unrelated failures are documented
+- npm run build passes
+- Changed UI is checked at mobile and desktop widths
+- Buttons, form validation, loading states, and empty states behave correctly
+- Final response lists files changed and checks run</pre>
+          </div>
+        </article>
+
+        <article class="template-card">
+          <div class="template-meta">
+            <h3>Node CLI Tool</h3>
+            <p>适合命令行小工具、批处理脚本、GitHub Action 辅助脚本。</p>
+            <div class="tag-row">
+              <span class="tag">Node.js</span>
+              <span class="tag">CLI</span>
+              <span class="tag">Batch</span>
+            </div>
+            <div class="actions">
+              <button class="btn btn-primary copy-template" type="button">复制这个模板</button>
+            </div>
+          </div>
+          <div class="template-body">
+            <pre data-template># AGENTS.md
+
+This project is a Node.js CLI or automation script.
+
+## Project Overview
+
+- Stack: Node.js, JavaScript or TypeScript
+- Runtime: local command line
+- Main goal: make file and API operations predictable, logged, and reversible
+
+## Working Mode
+
+- Read package.json, CLI entrypoints, and README before editing.
+- Prefer structured parsers for JSON, CSV, YAML, Markdown, and HTML.
+- Keep command output concise and useful for debugging.
+- Do not add network calls, credential usage, or destructive file operations without explicit need.
+
+## Common Commands
+
+- Install: npm install
+- Run: node path/to/script.js --help
+- Test: npm test
+- Lint: npm run lint
+- Build: npm run build
+
+## Editable Scope
+
+- CLI entrypoint and directly imported helper modules
+- Test fixtures and tests for changed behavior
+- README usage examples when flags or output changes
+
+## Protected Scope
+
+- Secrets, tokens, cookies, and local credential files
+- User data directories unless the task explicitly asks to modify them
+- Published package metadata unless release work is requested
+
+## Acceptance Checks
+
+- --help output still works
+- A dry-run or fixture-based run succeeds
+- Tests pass or known unrelated failures are reported
+- Error messages explain the failing input and next step
+- Final response includes exact command examples</pre>
+          </div>
+        </article>
+
+        <article class="template-card">
+          <div class="template-meta">
+            <h3>Python Data Script</h3>
+            <p>适合 Excel/CSV 清洗、报告生成、PDF/文档批处理。</p>
+            <div class="tag-row">
+              <span class="tag">Python</span>
+              <span class="tag">CSV</span>
+              <span class="tag">Excel</span>
+            </div>
+            <div class="actions">
+              <button class="btn btn-primary copy-template" type="button">复制这个模板</button>
+            </div>
+          </div>
+          <div class="template-body">
+            <pre data-template># AGENTS.md
+
+This project contains Python scripts for data cleanup, spreadsheet processing, or report generation.
+
+## Project Overview
+
+- Stack: Python 3, CSV/Excel/Markdown/PDF tooling
+- Runtime: local scripts
+- Main goal: preserve source data, produce auditable outputs, and keep missing values explicit
+
+## Working Mode
+
+- Inspect input files and column names before writing transformations.
+- Prefer pandas, openpyxl, csv, pathlib, and structured document libraries over ad hoc string parsing.
+- Keep generated outputs separate from raw source files.
+- Do not overwrite user source files unless the task explicitly asks for it.
+
+## Common Commands
+
+- Run script: python script.py
+- Check syntax: python -m py_compile script.py
+- Optional tests: pytest
+- Inspect output: python - &lt;&lt;'PY'
+from pathlib import Path
+print(Path("output").exists())
+PY
+
+## Editable Scope
+
+- Python scripts directly related to the requested transformation
+- Small helper modules used by the script
+- Output README or data dictionary when the output schema changes
+
+## Protected Scope
+
+- Raw input files
+- Customer files, private transcripts, and source workbooks
+- Credentials and API keys
+- Existing generated outputs unless regeneration is part of the task
+
+## Acceptance Checks
+
+- Script runs on a representative sample
+- Output row count, column names, and empty-value handling are checked
+- Generated workbook or CSV opens successfully
+- Any missing or inferred values are clearly marked
+- Final response includes output path and validation summary</pre>
+          </div>
+        </article>
+
+        <article class="template-card">
+          <div class="template-meta">
+            <h3>Obsidian Content Vault</h3>
+            <p>适合 Obsidian 插件、内容库、Markdown 工作流和小红书资料库。</p>
+            <div class="tag-row">
+              <span class="tag">Markdown</span>
+              <span class="tag">Obsidian</span>
+              <span class="tag">Content</span>
+            </div>
+            <div class="actions">
+              <button class="btn btn-primary copy-template" type="button">复制这个模板</button>
+            </div>
+          </div>
+          <div class="template-body">
+            <pre data-template># AGENTS.md
+
+This project is an Obsidian vault, Markdown content system, or local content workflow.
+
+## Project Overview
+
+- Stack: Markdown, Obsidian, local folders, optional plugin scripts
+- Runtime: local files opened in Obsidian or plain text editors
+- Main goal: preserve knowledge structure while creating clear, reusable deliverables
+
+## Working Mode
+
+- Read the nearest README, index note, or 清单.md before editing.
+- Keep final notes beside the source list unless the user gives another folder.
+- Preserve frontmatter, backlinks, headings, and existing naming conventions.
+- Prefer concise human writing over generic AI-sounding summaries.
+
+## Common Commands
+
+- Search files: rg "keyword" target-folder
+- List markdown files: rg --files -g "*.md"
+- Preview: open the Markdown file in Obsidian or a text editor
+
+## Editable Scope
+
+- Notes directly related to the requested topic
+- Local template files for the same workflow
+- README or index notes when a new reusable workflow is added
+
+## Protected Scope
+
+- Unrelated vault areas
+- Private chats, transcripts, or customer records not needed for the task
+- Plugin source code unless plugin changes are explicitly requested
+- User-authored drafts outside the requested folder
+
+## Acceptance Checks
+
+- Final note has clear title, source metadata, and readable sections
+- Links and paths point to existing local files where practical
+- No unrelated notes are reformatted
+- Deliverable is saved in the requested folder
+- Final response gives the saved path</pre>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="pay-panel">
+        <div>
+          <h2>需要 Codex 新手排障清单</h2>
+          <p>2.99 元包适合刚装 Codex、不知道第一次任务怎么写、经常卡在登录/权限/上下文/测试验证的新手。付款后通过闲鱼聊天发送 ZIP 资料包。</p>
+          <div class="note-box" id="purchaseNote">我要 Codex 入门排障清单 2.99 元版，拍下后请发送 ZIP 资料包。</div>
+          <p class="note-box">边界：这是清单和提示词模板包，不是代写代码、远程配置、账号共享或保证解决所有环境问题。</p>
+        </div>
+        <div>
+          <div class="actions">
+            <button class="btn btn-primary" type="button" id="copyNote">复制拍下备注</button>
+            <a class="btn btn-dark" href="https://www.goofish.com/item?id=1058436354978" target="_blank" rel="noopener">去闲鱼拍 2.99 元包</a>
+            <a class="btn btn-line" href="https://www.goofish.com/item?id=1059263013337" target="_blank" rel="noopener">看 99 元完整包</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>Contact: zhongruanjie@gmail.com</span>
+      <a href="./">AGENTS.md 生成器</a>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-troubleshooting.html">Codex 入门排障清单</a>
+      <a href="https://ronnie2025.github.io/ai-agent-workbench-starter-pack/codex-first-task-prompt-generator.html">Codex 提示词生成器</a>
+      <a href="https://www.goofish.com/item?id=1058436354978" target="_blank" rel="noopener">Goofish 2.99 CNY</a>
+      <a href="https://www.goofish.com/item?id=1059263013337" target="_blank" rel="noopener">Goofish 99 CNY</a>
+    </div>
+  </footer>
+
+  <script>
+    function fallbackCopy(text) {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (error) {
+        fallbackCopy(text);
+      }
+    }
+
+    function setDone(button, label) {
+      const original = button.textContent;
+      button.textContent = label;
+      setTimeout(() => { button.textContent = original; }, 1400);
+    }
+
+    function allTemplates() {
+      return Array.from(document.querySelectorAll("[data-template]"))
+        .map((item) => item.textContent.trim())
+        .join("\n\n---\n\n");
+    }
+
+    document.querySelectorAll(".copy-template").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const template = button.closest(".template-card").querySelector("[data-template]").textContent.trim();
+        await copyText(template);
+        setDone(button, "已复制");
+      });
+    });
+
+    async function copyAllTemplates(button) {
+      await copyText(allTemplates());
+      setDone(button, "已复制全部");
+    }
+
+    function downloadTemplates(button) {
+      const blob = new Blob([allTemplates()], { type: "text/markdown;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "agents-md-codex-templates.md";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      setDone(button, "已下载");
+    }
+
+    document.getElementById("copyAll").addEventListener("click", (event) => copyAllTemplates(event.currentTarget));
+    document.getElementById("downloadAll").addEventListener("click", (event) => downloadTemplates(event.currentTarget));
+    document.getElementById("downloadAllTop").addEventListener("click", (event) => downloadTemplates(event.currentTarget));
+    document.getElementById("copyNote").addEventListener("click", async (event) => {
+      const button = event.currentTarget;
+      await copyText(document.getElementById("purchaseNote").textContent.trim());
+      setDone(button, "已复制备注");
+    });
+  </script>
+</body>
+</html>

@@ -7,6 +7,7 @@ Live site: https://ronnie2025.github.io/codex-agents-md-generator/
 ## What It Does
 
 - Generates a ready-to-copy `AGENTS.md` from project type, stack, commands, file boundaries, safety rules, and acceptance checks.
+- Provides a searchable template library for common Codex CLI projects: static websites, Vite/React apps, Node CLI tools, Python data scripts, and Obsidian content vaults.
 - Helps beginners avoid vague first prompts like "optimize this project".
 - Works fully in the browser. No login, no backend, no tracking.
 - Links to the paid Codex starter pack only as an optional next step.
@@ -21,6 +22,7 @@ The paid packs are digital checklist and prompt-template packs delivered through
 ## Files
 
 - `index.html` - standalone AGENTS.md generator
+- `templates.html` - copyable AGENTS.md examples and templates
 - `codex-troubleshooting-cover.webp` - social/hero image
 - `robots.txt` - crawler entry
 - `sitemap.xml` - search engine sitemap
